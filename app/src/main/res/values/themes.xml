@@ -6,9 +6,6 @@
     <style name="Base.Theme.YutiansAndroidLabs" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
 
-
-
-
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/my_primary</item>
 
