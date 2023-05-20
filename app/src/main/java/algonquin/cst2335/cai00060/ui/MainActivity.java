@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         variableBinding.myButton.setOnClickListener(click ->
                 model.editString.postValue(variableBinding.myEditText.getText().toString()));
+
         model.editString.observe(this, s ->
                 variableBinding.myText.setText("Your edit text has " + s));
 
