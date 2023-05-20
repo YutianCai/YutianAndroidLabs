@@ -3,4 +3,6 @@
     <string name="hello_message">Hello world!</string>
     <string name="button_message">I\'m a button</string>
     <string name="hintText">Write something here</string>
+    <string name="question">Do you drink coffee?</string>
+
 </resources>
