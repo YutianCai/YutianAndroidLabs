@@ -49,7 +49,7 @@ public class SecondActivity extends AppCompatActivity {
         String phoneNumber = prefs.getString("phoneNumber", "");
         variableBinding.editTextPhone.setText(phoneNumber);
 
-        Intent fromPrevious = getIntent();
+        // Intent fromPrevious = getIntent();
 
         File file = new File(getFilesDir(), "Picture.png");
         if (file.exists()) {
@@ -86,11 +86,10 @@ public class SecondActivity extends AppCompatActivity {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-                    startActivity(cameraIntent);
+                    cameraResult.launch(cameraIntent);
                 else
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, 20);
             }
-            cameraResult.launch(cameraIntent);
         });
 
         variableBinding.buttonCall.setOnClickListener(v -> {
