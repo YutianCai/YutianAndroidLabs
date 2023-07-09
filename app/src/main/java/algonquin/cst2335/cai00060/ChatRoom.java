@@ -1,6 +1,7 @@
 package algonquin.cst2335.cai00060;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,31 +79,18 @@ public class ChatRoom extends AppCompatActivity {
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "MyChatMessageDatabase").build();
         myDAO = db.cmDAO();
 
-//        if(messages == null) {
-//            chatModel.messages.setValue(messages = new ArrayList<>());
-//            Executor thread = Executors.newSingleThreadExecutor();
-//            thread.execute(() -> {
-//                messages.addAll( myDAO.getAllMessages() ); //Once you get the data from database
-//                runOnUiThread( () ->  binding.recycleView.setAdapter( myAdapter )); //You can then load the RecyclerView
-//            });
-//        }
-
-        //get all messages from database
-        Executor thread = Executors.newSingleThreadExecutor();
-        thread.execute(() -> {
-            // run on a second processor
-            List<ChatMessage> fromDatabase = myDAO.getAllMessages();
-            messages.addAll(fromDatabase);
-            //set adapter
-            binding.recycleView.setAdapter(myAdapter);
-            // update the recycler view
-            runOnUiThread(() -> binding.recycleView.setAdapter(myAdapter));
-        });
-
         // initialize to the ViewModel arraylist
-        messages = chatModel.messages.getValue();
         if (messages == null) {
-            chatModel.messages.postValue(messages = new ArrayList<ChatMessage>());
+            chatModel.messages.setValue(messages = new ArrayList<>());
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(() -> {
+                //get all messages from database
+                messages.addAll(myDAO.getAllMessages());
+                //set adapter
+                binding.recycleView.setAdapter(myAdapter);
+                //update the RecyclerView
+                runOnUiThread(() -> binding.recycleView.setAdapter(myAdapter));
+            });
         }
 
         binding.sendButton.setOnClickListener(click -> {
@@ -148,12 +138,47 @@ public class ChatRoom extends AppCompatActivity {
 
 
     public class MyRowHolder extends RecyclerView.ViewHolder {
-        ArrayList<String> messages = new ArrayList<>();
         TextView messageText;
         TextView timeText;
 
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(click -> {
+                int position = getAbsoluteAdapterPosition();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+                builder.setMessage("Do you want to delete the message: " + messageText.getText())
+                        .setTitle("Question:")
+                        .setPositiveButton("Yes", (dialog, cl) -> {
+                            //delete the message on screen
+                            ChatMessage removedMessage = messages.remove(position);
+                            myAdapter.notifyItemRemoved(position);
+
+                            //delete the message in database
+                            Executor threadA = Executors.newSingleThreadExecutor();
+                            threadA.execute(() -> {
+                                myDAO.deleteMessage(removedMessage);
+                            });
+
+                            //create a Snackbar to show a message
+                            Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                                    .setAction("Undo", clk -> {
+                                        messages.add(position, removedMessage);
+                                        myAdapter.notifyItemInserted(position);
+                                        //add the deleted message back in database
+                                        Executor threadB = Executors.newSingleThreadExecutor();
+                                        threadB.execute(() -> {
+                                            myDAO.insertMessage(removedMessage);
+                                        });
+                                    })
+                                    .show();
+                        })
+                        .setNegativeButton("No", (dialog, cl) -> {
+                        })
+                        .create().show();
+            });
+
             messageText = itemView.findViewById(R.id.message);
             timeText = itemView.findViewById(R.id.time);
         }
