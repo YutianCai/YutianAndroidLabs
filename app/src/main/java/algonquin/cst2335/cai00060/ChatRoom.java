@@ -3,6 +3,8 @@ package algonquin.cst2335.cai00060;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -134,6 +136,23 @@ public class ChatRoom extends AppCompatActivity {
         // To specify a single column scrolling in a Vertical direction
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
+        // register as a listener to the MutableLiveData object selectedMessage
+        chatModel.selectedMessage.observe(this, (newMessageValue) -> {
+            if (newMessageValue != null) {
+                // newMessageValue is the value to post
+                MessageDetailsFragment chatFragment = new MessageDetailsFragment(newMessageValue);
+                // show the fragment on screen
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack("Doesn't matter")
+                        .replace(R.id.fragmentLocation, chatFragment)
+                        .commit();
+//                FragmentManager fMgr = getSupportFragmentManager();
+//                FragmentTransaction tx = fMgr.beginTransaction();
+//                tx.add(R.id.fragmentLocation, chatFragment);
+//                tx.commit();
+            }
+        });
     }
 
 
@@ -147,6 +166,12 @@ public class ChatRoom extends AppCompatActivity {
             itemView.setOnClickListener(click -> {
                 int position = getAbsoluteAdapterPosition();
 
+                // click message to show details of it
+                ChatMessage selected = messages.get(position);
+                chatModel.selectedMessage.postValue(selected);
+
+                /*
+                // click message to delete it
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
                 builder.setMessage("Do you want to delete the message: " + messageText.getText())
                         .setTitle("Question:")
@@ -177,6 +202,8 @@ public class ChatRoom extends AppCompatActivity {
                         .setNegativeButton("No", (dialog, cl) -> {
                         })
                         .create().show();
+                 */
+
             });
 
             messageText = itemView.findViewById(R.id.message);
