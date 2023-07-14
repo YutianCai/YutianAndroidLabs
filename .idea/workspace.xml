@@ -16,8 +16,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d4d4b56-0965-4426-83a5-ce9d5399e7e4" name="Changes" comment="Week8 Finished first step">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="0d4d4b56-0965-4426-83a5-ce9d5399e7e4" name="Changes" comment="Week8 Fragments All Finished">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/my_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/algonquin/cst2335/cai00060/ChatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/algonquin/cst2335/cai00060/ChatRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/algonquin/cst2335/cai00060/MessageDetailsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/algonquin/cst2335/cai00060/MessageDetailsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_chat_room.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_chat_room.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/details_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/details_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,13 +83,14 @@
         <option value="Interface" />
         <option value="Class" />
         <option value="layoutResourceFile" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Week6_RecyclerView" />
+        <entry key="$PROJECT_DIR$" value="week8_Fragments" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -133,9 +142,9 @@
       <recent name="C:\CST2335Android\app\src\main\res\values-zh-rCN" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\CST2335Android\app\src\main\res\drawable" />
       <recent name="C:\CST2335Android\app\src\main\res\layout" />
       <recent name="C:\CST2335Android\app\src\main\res" />
-      <recent name="C:\CST2335Android\app\src\main\res\drawable" />
       <recent name="C:\CST2335Android\app\src\main\res\drawable-zh-rCH" />
     </key>
     <key name="android.template.652328197">
@@ -583,7 +592,21 @@
       <option name="project" value="LOCAL" />
       <updated>1688962695111</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Week8 Fragments All Finished">
+      <created>1689360603554</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1689360603554</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Week8 Fragments All Finished">
+      <created>1689360950216</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1689360950216</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -660,7 +683,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Initial Commit" />
     <MESSAGE value="Second commit: changed the icon and app colours" />
     <MESSAGE value="Third commit: added a button and Chinese language support" />
     <MESSAGE value="Fourth commit: changed the primary and secondary color in colors.xml" />
@@ -685,7 +707,8 @@
     <MESSAGE value="Week7 finished first step" />
     <MESSAGE value="Week7 All Finished" />
     <MESSAGE value="Week8 Finished first step" />
-    <option name="LAST_COMMIT_MESSAGE" value="Week8 Finished first step" />
+    <MESSAGE value="Week8 Fragments All Finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="Week8 Fragments All Finished" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

@@ -3,27 +3,26 @@ package algonquin.cst2335.cai00060;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
 import algonquin.cst2335.cai00060.databinding.ActivityChatRoomBinding;
 import algonquin.cst2335.cai00060.databinding.ReceiveMessageBinding;
 import algonquin.cst2335.cai00060.databinding.SentMessageBinding;
@@ -35,6 +34,7 @@ public class ChatRoom extends AppCompatActivity {
     protected ChatRoomViewModel chatModel;
     protected RecyclerView.Adapter myAdapter;
     protected ChatMessageDAO myDAO;
+    protected int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,9 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
+
+        // set the toolbar, it will automatically call onCreateOptionsMenu()
+        setSupportActionBar(binding.myToolbar);
 
         // initialize myAdapter
         myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
@@ -155,6 +158,54 @@ public class ChatRoom extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        // load a Menu layout file
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.delete) {
+            // click option to delete this message
+            TextView messageText = findViewById(R.id.messageText);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+            builder.setMessage("Do you want to delete the message: " + messageText.getText())
+                    .setTitle("Question:")
+                    .setPositiveButton("Yes", (dialog, cl) -> {
+                        //delete the message on screen
+                        ChatMessage removedMessage = messages.remove(position);
+                        myAdapter.notifyItemRemoved(position);
+
+                        //delete the message in database
+                        Executor threadA = Executors.newSingleThreadExecutor();
+                        threadA.execute(() -> {
+                            myDAO.deleteMessage(removedMessage);
+                        });
+
+                        //create a Snackbar to show a message
+                        Snackbar.make(messageText, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                                .setAction("Undo", clk -> {
+                                    messages.add(position, removedMessage);
+                                    myAdapter.notifyItemInserted(position);
+                                    //add the deleted message back in database
+                                    Executor threadB = Executors.newSingleThreadExecutor();
+                                    threadB.execute(() -> {
+                                        myDAO.insertMessage(removedMessage);
+                                    });
+                                })
+                                .show();
+                    })
+                    .setNegativeButton("No", (dialog, cl) -> {
+                    })
+                    .create().show();
+        } else if (item.getItemId() == R.id.about) {
+            Toast.makeText(this, "Version 1.0, created by Yutian Cai", Toast.LENGTH_LONG).show();
+        }
+        return true;
+    }
 
     public class MyRowHolder extends RecyclerView.ViewHolder {
         TextView messageText;
@@ -164,14 +215,14 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
 
             itemView.setOnClickListener(click -> {
-                int position = getAbsoluteAdapterPosition();
+                position = getAbsoluteAdapterPosition();
 
                 // click message to show details of it
                 ChatMessage selected = messages.get(position);
                 chatModel.selectedMessage.postValue(selected);
 
-                /*
                 // click message to delete it
+                /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
                 builder.setMessage("Do you want to delete the message: " + messageText.getText())
                         .setTitle("Question:")
