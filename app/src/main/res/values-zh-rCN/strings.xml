@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Yutian\'s Android Labs</string>
-    <string name="type_message">输入你的密码</string>
+    <string name="type_message">输入城市</string>
+    <string name="hint_message">在这里输入</string>
     <string name="hello_message">你好世界！</string>
-    <string name="button_message">登录</string>
+    <string name="button_message">搜索</string>
 </resources>

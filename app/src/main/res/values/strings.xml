@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Yutian\'s Android Labs</string>
-    <string name="type_message">Type your password</string>
-    <string name="button_message">LOGIN</string>
+    <string name="type_message">Type the name of a city</string>
+    <string name="hint_message">Type city name here</string>
+    <string name="button_message">Get Forecast</string>
+    <string name="hello_message">Hello World</string>
 </resources>
